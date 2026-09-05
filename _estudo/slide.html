@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slider Fade Corrigido</title>
+    <style>
+      .banner-container {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        aspect-ratio: 4 / 1;
+        overflow: hidden;
+        background-color: #000;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        /* Transição suave de 1 segundo */
+        transition: opacity 1s ease-in-out;
+        z-index: 1;
+      }
+
+      /* Classe que define quem aparece */
+      .slide.active {
+        opacity: 1;
+        z-index: 2;
+      }
+
+      .overlay-barra {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .nav-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        pointer-events: auto;
+        transition: transform 0.2s;
+      }
+
+      .nav-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .nav-btn img {
+        width: 45px;
+        height: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner-container">
+      <img src="slide-livro.png" class="slide active" alt="Slide 1" />
+      <img src="slide-redmi.png" class="slide" alt="Slide 2" />
+      <img src="slide-tenis.png" class="slide" alt="Slide 3" />
+
+      <div class="overlay-barra">
+        <button class="nav-btn" onclick="mudarSlide(-1)">
+          <img src="prev.png" alt="Anterior" />
+        </button>
+
+        <button class="nav-btn" onclick="mudarSlide(1)">
+          <img src="next.png" alt="Próximo" />
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Seleciona todos os slides
+      const slides = document.querySelectorAll(".slide");
+      let indexAtual = 0;
+      let emTransicao = false;
+      let slideTimer; // Variável para controlar o tempo do auto-play
+
+      function mudarSlide(direcao) {
+        // 1. Bloqueia clique se já estiver animando
+        if (emTransicao) return;
+
+        // 2. Reseta o Timer do Auto-play (evita trocar logo após o clique)
+        iniciarAutoPlay();
+
+        // 3. Identifica o slide que está saindo
+        const slideSaindo = slides[indexAtual];
+
+        // 4. Calcula o índice do novo slide
+        indexAtual = (indexAtual + direcao + slides.length) % slides.length;
+
+        // 5. Identifica o novo slide que vai entrar
+        const slideEntrando = slides[indexAtual];
+
+        // Prevenção extra contra repetição
+        if (slideSaindo === slideEntrando) return;
+
+        emTransicao = true;
+
+        // Inicia o Cross-Fade (CSS cuida da suavidade)
+        slideSaindo.classList.remove("active");
+        slideEntrando.classList.add("active");
+
+        // Libera para o próximo clique após o fim da transição (1s)
+        setTimeout(() => {
+          emTransicao = false;
+        }, 1000);
+      }
+
+      // Função para iniciar ou resetar o timer
+      function iniciarAutoPlay() {
+        // Limpa o timer anterior se existir
+        clearInterval(slideTimer);
+
+        // Define a troca automática a cada 5 segundos (5000ms)
+        slideTimer = setInterval(() => {
+          mudarSlide(1);
+        }, 5000);
+      }
+
+      // Inicia o carrossel assim que a página carrega
+      window.onload = iniciarAutoPlay;
+    </script>
+  </body>
+</html>

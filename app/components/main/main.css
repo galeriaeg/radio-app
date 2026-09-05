@@ -1,0 +1,28 @@
+.box-sobre {
+  width: 100%;
+  margin: 0;
+  display: block;
+}
+
+.box-programacao {
+  border: 1px solid #aaa;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 40px;
+}
+
+.box-banner-h {
+  margin: 40px 0;
+}
+
+.banner-h {
+  width: 80%;
+  margin: 0 10%;
+  display: block;
+}
+
+.legenda {
+  color: #999;
+  margin: 0 10%;
+  font-size: 11px;
+}

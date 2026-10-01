@@ -66,3 +66,18 @@ div.card:hover {
 .btn-nav:hover {
   background-color: #ccc;
 }
+
+.box-calendario {
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #999;
+}
+
+.diaAtivo {
+  color: blue !important;
+  background-color: #d4e3ff;
+  padding: 3px 5px;
+}
